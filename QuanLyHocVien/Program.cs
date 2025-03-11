@@ -16,7 +16,7 @@ namespace QuanLyHocVien
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HocSinhKhoaHoc());
+            Application.Run(new DangNhap());
         }
     }
 }

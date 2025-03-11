@@ -20,7 +20,7 @@ namespace QuanLyHocVien
         public DangNhap()
         {
             InitializeComponent();
-            conn = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=qlhv;Integrated Security=True");
+            conn = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=q;Integrated Security=True");
 
         }
 
@@ -33,9 +33,9 @@ namespace QuanLyHocVien
 
                 string tenDangNhap = textBox1.Text.Trim();
                 string matKhau = textBox2.Text.Trim();
-                string query = "SELECT * FROM TaiKhoan WHERE TenDangNhap = @TenDangNhap AND MatKhau = @MatKhau";
+                string query = "SELECT mataikhoan, tentaikhoan, mahocvien, maketoan, Quyen FROM TaiKhoan WHERE TenTaiKhoan = @TenTaiKhoan AND MatKhau = @MatKhau";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@TenDangNhap", tenDangNhap);
+                cmd.Parameters.AddWithValue("@TenTaiKhoan", tenDangNhap);
                 cmd.Parameters.AddWithValue("@MatKhau", matKhau);
 
                 da = new SqlDataAdapter(cmd);
@@ -44,12 +44,32 @@ namespace QuanLyHocVien
 
                 if (dt.Rows.Count > 0)
                 {
-                    MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide(); 
-                    TrangChu trangChu = new TrangChu(tenDangNhap);
-                    trangChu.ShowDialog();
-                    this.Close();
+                    int quyen = Convert.ToInt32(dt.Rows[0]["Quyen"]);
+                    string tentaikhoan = dt.Rows[0]["tentaikhoan"].ToString();
+                    string mahocvien = dt.Rows[0]["mahocvien"].ToString(); 
+                    string maketoan = dt.Rows[0]["maketoan"].ToString(); 
 
+                    MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Hide();
+
+                    // Navigate to the correct form based on the role (quyen)
+                    if (quyen == 0)
+                    {
+                        MainHocSinh hocSinhKhoaHocForm = new MainHocSinh(tentaikhoan, mahocvien);
+                        hocSinhKhoaHocForm.ShowDialog();
+                    }
+                    else if (quyen == 2)
+                    {
+                        MainKeToan mainKeToanForm = new MainKeToan(tentaikhoan,maketoan);
+                        mainKeToanForm.ShowDialog();
+                    }
+                    else if (quyen == 1)
+                    {
+                        TrangChu trangChuForm = new TrangChu(tentaikhoan);
+                        trangChuForm.ShowDialog();
+                    }
+
+                    this.Close();
                 }
                 else
                 {
@@ -66,5 +86,7 @@ namespace QuanLyHocVien
                     conn.Close();
             }
         }
+
+
     }
 }

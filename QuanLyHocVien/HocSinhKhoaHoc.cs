@@ -8,9 +8,12 @@ namespace QuanLyHocVien
     public partial class HocSinhKhoaHoc : Form
     {
         private string connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=q;Integrated Security=True";
-
-        public HocSinhKhoaHoc()
+        private string tentaikhoan;
+        private string mahocvien;
+        public HocSinhKhoaHoc(string TenTaiKhoan , string MaHocVien)
         {
+            this.tentaikhoan = TenTaiKhoan;
+            this.mahocvien = MaHocVien;
             InitializeComponent();
             LoadCourses();
             LoadRegisteredCourses();
@@ -73,7 +76,7 @@ namespace QuanLyHocVien
                 {
                     connection.Open();
 
-                    string maHocVien ="HV001"; // Lấy ID học viên đăng nhập
+                    string maHocVien = mahocvien; // Lấy ID học viên đăng nhập
                     string maKhoaHoc = dataGridView1.SelectedRows[0].Cells["MaKhoaHoc"].Value.ToString();
                     decimal tongHocPhi = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["TongHocPhi"].Value);
                     decimal giamGia = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["GiamGia"].Value);
@@ -151,7 +154,7 @@ kh.MaKhoaHoc,
                 WHERE dk.MaHocVien = @MaHocVien";
 
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    adapter.SelectCommand.Parameters.AddWithValue("@MaHocVien", "HV001");
+                    adapter.SelectCommand.Parameters.AddWithValue("@MaHocVien", mahocvien);
 
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
@@ -178,7 +181,7 @@ kh.MaKhoaHoc,
                 {
                     connection.Open();
 
-                    string maHocVien = "HV001";
+                    string maHocVien = mahocvien;
                     string maDangKy = dataGridView2.SelectedRows[0].Cells["MaDangKy"].Value.ToString();
                     string maKhoaHoc = dataGridView2.SelectedRows[0].Cells["MaKhoaHoc"].Value.ToString();
 

@@ -87,6 +87,12 @@
     <Compile Include="HocSinhKhoaHoc.Designer.cs">
       <DependentUpon>HocSinhKhoaHoc.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainHocSinh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainHocSinh.Designer.cs">
+      <DependentUpon>MainHocSinh.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainKeToan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,12 @@
     </Compile>
     <Compile Include="QuanLyGiangVien.Designer.cs">
       <DependentUpon>QuanLyGiangVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyGiaoDichKeToan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QuanLyGiaoDichKeToan.Designer.cs">
+      <DependentUpon>QuanLyGiaoDichKeToan.cs</DependentUpon>
     </Compile>
     <Compile Include="QuanLyHoanTien.cs">
       <SubType>Form</SubType>
@@ -149,6 +161,9 @@
     <EmbeddedResource Include="HocSinhKhoaHoc.resx">
       <DependentUpon>HocSinhKhoaHoc.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainHocSinh.resx">
+      <DependentUpon>MainHocSinh.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainKeToan.resx">
       <DependentUpon>MainKeToan.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,6 +178,9 @@
     </Compile>
     <EmbeddedResource Include="QuanLyGiangVien.resx">
       <DependentUpon>QuanLyGiangVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuanLyGiaoDichKeToan.resx">
+      <DependentUpon>QuanLyGiaoDichKeToan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QuanLyHoanTien.resx">
       <DependentUpon>QuanLyHoanTien.cs</DependentUpon>

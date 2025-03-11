@@ -81,6 +81,7 @@
             this.userAvatar = new System.Windows.Forms.PictureBox();
             this.userNameLabel = new System.Windows.Forms.Label();
             this.userRoleLabel = new System.Windows.Forms.Label();
+            this.giaoDịchKếToánToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel.SuspendLayout();
             this.contentPanel.SuspendLayout();
             this.dashboardPanel.SuspendLayout();
@@ -400,7 +401,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hệThốngToolStripMenuItem,
-            this.quảnLýKhóaHọcToolStripMenuItem1});
+            this.quảnLýKhóaHọcToolStripMenuItem1,
+            this.giaoDịchKếToánToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -528,6 +530,14 @@
             this.userRoleLabel.Size = new System.Drawing.Size(100, 23);
             this.userRoleLabel.TabIndex = 0;
             // 
+            // giaoDịchKếToánToolStripMenuItem
+            // 
+            this.giaoDịchKếToánToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.giaoDịchKếToánToolStripMenuItem.Name = "giaoDịchKếToánToolStripMenuItem";
+            this.giaoDịchKếToánToolStripMenuItem.Size = new System.Drawing.Size(127, 21);
+            this.giaoDịchKếToánToolStripMenuItem.Text = "Giao Dịch Kế Toán";
+            this.giaoDịchKếToánToolStripMenuItem.Click += new System.EventHandler(this.giaoDịchKếToánToolStripMenuItem_Click);
+            // 
             // TrangChu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -623,6 +633,7 @@
         private System.Windows.Forms.TextBox searchBox;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button notificationButton;
+        private System.Windows.Forms.ToolStripMenuItem giaoDịchKếToánToolStripMenuItem;
 
         // ... existing code ...
     }

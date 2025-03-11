@@ -80,5 +80,11 @@ namespace QuanLyHocVien
             QuanLyKhoaHoc t = new QuanLyKhoaHoc();
             t.ShowDialog(this);
         }
+
+        private void giaoDịchKếToánToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QuanLyGiaoDichKeToan t = new QuanLyGiaoDichKeToan();
+            t.ShowDialog(this);
+        }
     }
 }

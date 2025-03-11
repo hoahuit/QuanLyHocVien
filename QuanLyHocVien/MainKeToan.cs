@@ -12,14 +12,28 @@ namespace QuanLyHocVien
 {
     public partial class MainKeToan : Form
     {
-        public MainKeToan()
+        private string tentaikhoan;
+        private string maketoan;
+        public MainKeToan(string tentaikhoan, string maketoan)
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            Timer timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += Timer_Tick;
+            timer.Start();
+            this.tentaikhoan = tentaikhoan;
+            this.maketoan = maketoan;
+            label4.Text = "Bạn đang đăng nhập với tài khoản " + tentaikhoan;
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            label3.Text = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
         }
 
         private void quảnLýKhóaHọcToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SinhVienChuaThanhToan t = new SinhVienChuaThanhToan();
+            SinhVienChuaThanhToan t = new SinhVienChuaThanhToan(maketoan);
             t.ShowDialog();
         }
 
@@ -31,7 +45,7 @@ namespace QuanLyHocVien
 
         private void yêuCầuHoànTiềnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            QuanLyHoanTien t = new QuanLyHoanTien();
+            QuanLyHoanTien t = new QuanLyHoanTien(maketoan);
             t.ShowDialog();
         }
     }

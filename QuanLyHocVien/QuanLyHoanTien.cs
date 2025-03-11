@@ -14,9 +14,10 @@ namespace QuanLyHocVien
     public partial class QuanLyHoanTien : Form
     {
         private string connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=q;Integrated Security=True";
-
-        public QuanLyHoanTien()
+        private string maketoan;
+        public QuanLyHoanTien(string MaKeToan)
         {
+            this.maketoan = MaKeToan;
             InitializeComponent();
             LoadYeuCauHoanTien();
         }
@@ -75,28 +76,26 @@ namespace QuanLyHocVien
 
                         try
                         {
-                            // **Tạo mã giao dịch kế toán**
                             string maGiaoDich = "GD" + new Random().Next(10000, 99999);
 
-                            // **Thêm vào bảng GiaoDichKeToan trước**
-                            string insertGiaoDichQuery = "INSERT INTO GiaoDichKeToan (MaGiaoDich, NgayGiaoDich, MoTa) VALUES (@MaGiaoDich, GETDATE(), N'Hoàn tiền cho học viên')";
+                            string insertGiaoDichQuery = "INSERT INTO GiaoDichKeToan (MaGiaoDich, NgayGiaoDich, MoTa , NoiDungHoachToan , MaKeToan) VALUES (@MaGiaoDich, GETDATE(), N'Hoàn tiền cho học viên','TK 511' , @MaKeToan )";
                             using (SqlCommand cmd = new SqlCommand(insertGiaoDichQuery, connection, transaction))
                             {
                                 cmd.Parameters.AddWithValue("@MaGiaoDich", maGiaoDich);
                                 cmd.ExecuteNonQuery();
                             }
 
-                            // **Thêm vào bảng ChiTietGiaoDich**
                             string insertChiTietQuery = "INSERT INTO ChiTietGiaoDich (MaChiTiet, MaGiaoDich, SoTienCo) VALUES (@MaChiTiet, @MaGiaoDich, @SoTienCo)";
                             using (SqlCommand cmd = new SqlCommand(insertChiTietQuery, connection, transaction))
                             {
                                 cmd.Parameters.AddWithValue("@MaChiTiet", "CTGD" + new Random().Next(10000, 99999));
                                 cmd.Parameters.AddWithValue("@MaGiaoDich", maGiaoDich);
                                 cmd.Parameters.AddWithValue("@SoTienCo", tongHocPhi);
-                                cmd.ExecuteNonQuery();
+                                cmd.Parameters.AddWithValue("@MaKeToan", maketoan);
+
+                            cmd.ExecuteNonQuery();
                             }
 
-                            // **Cập nhật trạng thái thành "Đã hoàn tiền"**
                             string updateQuery = "UPDATE DangKyHoc SET TrangThai = N'Đã hoàn tiền' WHERE MaDangKy = @MaDangKy";
                             using (SqlCommand cmd = new SqlCommand(updateQuery, connection, transaction))
                             {
@@ -104,7 +103,6 @@ namespace QuanLyHocVien
                                 cmd.ExecuteNonQuery();
                             }
 
-                            // **Commit transaction**
                             transaction.Commit();
 
                             MessageBox.Show("Hoàn tiền thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

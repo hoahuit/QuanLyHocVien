@@ -93,7 +93,7 @@ namespace QuanLyHocVien
                         return;
                     }
 
-                    string insertThanhToanQuery = "INSERT INTO ThanhToan (MaThanhToan, MaHocPhi, NgayThanhToan, SoTien) VALUES (@MaThanhToan, @MaHocPhi, GETDATE(), @SoTien)";
+                    string insertThanhToanQuery = "INSERT INTO ThanhToan (MaThanhToan, MaHocPhi, NgayThanhToan, SoTien , PhuongThucThanhToan ) VALUES (@MaThanhToan, @MaHocPhi, GETDATE(), @SoTien , N'Tiền Mặt')";
                     using (SqlCommand cmd = new SqlCommand(insertThanhToanQuery, connection))
                     {
                         cmd.Parameters.AddWithValue("@MaThanhToan", "TT" + new Random().Next(10000, 99999));

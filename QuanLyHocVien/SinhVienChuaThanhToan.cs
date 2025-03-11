@@ -15,9 +15,10 @@ namespace QuanLyHocVien
     public partial class SinhVienChuaThanhToan : Form
     {
         private string connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=q;Integrated Security=True";
-
-        public SinhVienChuaThanhToan()
+        private string maketoan;
+        public SinhVienChuaThanhToan(string maketoan)
         {
+            this.maketoan = maketoan;
             InitializeComponent();
             LoadSinhVienChuaThanhToan();
             groupBox1.Visible = false;
@@ -73,12 +74,12 @@ namespace QuanLyHocVien
 
                         // **Lấy tổng học phí và số tiền đã đóng**
                         string getHocPhiQuery = @"
-                SELECT hp.MaHocPhi, hp.TongHocPhi, 
-                       COALESCE(SUM(tt.SoTien), 0) AS SoTienDaDong
-                FROM HocPhi hp
-                LEFT JOIN ThanhToan tt ON hp.MaHocPhi = tt.MaHocPhi
-                WHERE hp.MaDangKy = @MaDangKy
-                GROUP BY hp.MaHocPhi, hp.TongHocPhi";
+                    SELECT hp.MaHocPhi, hp.TongHocPhi, 
+                           COALESCE(SUM(tt.SoTien), 0) AS SoTienDaDong
+                    FROM HocPhi hp
+                    LEFT JOIN ThanhToan tt ON hp.MaHocPhi = tt.MaHocPhi
+                    WHERE hp.MaDangKy = @MaDangKy
+                    GROUP BY hp.MaHocPhi, hp.TongHocPhi";
 
                         string maHocPhi = "";
                         int tongHocPhi = 0;
@@ -104,9 +105,10 @@ namespace QuanLyHocVien
                         }
 
                         int soTienNo = tongHocPhi  - soTienThanhToan;
+                         string maGiaoDich = "GD" + new Random().Next(10000, 99999);
 
-                        // **Ghi nhận thanh toán**
-                        string insertQuery = "INSERT INTO ThanhToan (MaThanhToan, MaHocPhi, NgayThanhToan, SoTien) VALUES (@MaThanhToan, @MaHocPhi, GETDATE(), @SoTien)";
+                    // **Ghi nhận thanh toán**
+                    string insertQuery = "INSERT INTO ThanhToan (MaThanhToan, MaHocPhi, NgayThanhToan, SoTien , PhuongThucThanhToan) VALUES (@MaThanhToan, @MaHocPhi, GETDATE(), @SoTien , N'Tiền Mặt')";
                         using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
                         {
                             cmd.Parameters.AddWithValue("@MaThanhToan", "TT" + new Random().Next(10000, 99999));
@@ -114,9 +116,17 @@ namespace QuanLyHocVien
                             cmd.Parameters.AddWithValue("@SoTien", soTienThanhToan);
                             cmd.ExecuteNonQuery();
                         }
+                            string insertGiaoDichQuery = "INSERT INTO GiaoDichKeToan (MaGiaoDich, NgayGiaoDich, MoTa , NoiDungHoachToan, MaKeToan)  VALUES (@MaGiaoDich, GETDATE(), N'Học Viên Đóng tiền','TK 511',@MaKeToan )";
+                            using (SqlCommand cmd = new SqlCommand(insertGiaoDichQuery, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@MaGiaoDich", maGiaoDich);
+                        cmd.Parameters.AddWithValue("@MaKeToan", maketoan);
 
-                        // **Cập nhật trạng thái thanh toán**
-                        string trangThai = soTienNo > 0 ? "Đang nợ học phí" : "Đã thanh toán";
+                        cmd.ExecuteNonQuery();
+                            }
+
+                    // **Cập nhật trạng thái thanh toán**
+                    string trangThai = soTienNo > 0 ? "Đang nợ học phí" : "Đã thanh toán";
                         string updateStatusQuery = "UPDATE DangKyHoc SET TrangThai = @TrangThai WHERE MaDangKy = @MaDangKy";
                         using (SqlCommand cmd = new SqlCommand(updateStatusQuery, connection))
                         {
